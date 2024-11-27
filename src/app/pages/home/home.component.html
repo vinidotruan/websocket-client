@@ -1,0 +1,30 @@
+<app-navbar></app-navbar>
+<section class="section container">
+  <h2>
+    Minhas sessões
+  </h2>
+</section>
+<main class="main container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card" *ngFor="let session of sessions" (click)="goToSession(session)">
+          <div class="card-body">
+            <h3> {{ session.name }}</h3>
+            <span class="badge text-bg-primary"> {{ session.uri }}</span>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <h3> Adicionar sessão </h3>
+          <span class="material-symbols-outlined">
+          add_circle
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
