@@ -38,10 +38,13 @@ export class EchoService {
   listenPrivateChannel(
     channel: string,
     event: string,
-    callback: (data: any) => void,
+    callback?: (data: any) => void,
   ) {
     this.echo.private(channel).listen(event, (data: any) => {
-      callback(data);
+      if(callback) {
+        callback(data);
+
+      }
     });
   }
 

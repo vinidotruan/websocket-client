@@ -23,8 +23,13 @@ export class LoginComponent {
       }
     });
 
+    if(this.authService.authToken) {
+      this.router.navigate(['/home']).then()
+    }
+
     if(this.route.snapshot.queryParamMap.get('code')) {
       this.code =this.route.snapshot.queryParamMap.get('code');
+      console.log(this.code);
       this.authService.login(this.code).subscribe({
         next: response => {
           localStorage.setItem("token", response.token);

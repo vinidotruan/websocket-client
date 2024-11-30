@@ -18,19 +18,6 @@ export class AppComponent {
   private stopwatchService = inject(StopwatchService)
 
   constructor() {
-    this.echoService.listenPrivateChannel(
-      'session.1',
-      '.session.started',
-      (data: Session[]) => {
-        this.sessionService.setSession(data[0])
-      },
-    );
-    this.echoService.listenPrivateChannel(
-      'session.1',
-      '.session.ended',
-      () => {
-        this.stopwatchService.stop();
-      },
-    );
+
   }
 }

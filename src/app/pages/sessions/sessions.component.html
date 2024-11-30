@@ -8,11 +8,13 @@
       </pre>
     </div>
   </div>
-  <div class="row">
-    <div class="col-12">
-      <button class="btn btn-primary" (click)="start()">
-        Start
-      </button>
+  @if(isOwner()) {
+    <div class="row">
+      <div class="col-12">
+        <button class="btn btn-primary" (click)="start()">
+          Start
+        </button>
+      </div>
     </div>
+  }
   </div>
-</div>
