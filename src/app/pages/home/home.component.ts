@@ -32,4 +32,8 @@ export class HomeComponent {
       this.sessionsService.setSession(session)
     })
   }
+
+  goToCreateSession() {
+    this.router.navigate(['/session']);
+  }
 }

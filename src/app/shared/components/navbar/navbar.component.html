@@ -1,6 +1,9 @@
-<nav class="navbar bg-purple">
+<nav class="navbar border-bottom">
   <div class="container-fluid">
-    <img [src]="userPic" alt="user image" class="rounded-pill" style="width: 100px">
-    <a class="navbar-brand" [routerLink]="'/home'">{{ userName }}</a>
+    <img [src]="userPic" alt="user image" class="rounded-pill" style="width: 50px">
+    <a class="navbar-brand text-white fw-bold" [routerLink]="'/home'">{{ userName }}</a>
+    <span class="material-symbols-outlined" (click)="logout()">
+      logout
+    </span>
   </div>
 </nav>

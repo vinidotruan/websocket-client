@@ -17,6 +17,10 @@ export class SessionsService {
 
   constructor() { }
 
+  createSession(session: any): Observable<Session> {
+    return this.http.post<Session>(`${environment.apiUrl}/sessions`, session);
+  }
+
   listSessions(): Observable<Session[]> {
     return this.http.get<Session[]>(`${environment.apiUrl}/sessions`)
   }

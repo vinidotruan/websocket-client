@@ -1,13 +1,12 @@
 import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "@env/environment.development";
-import {  Observable } from "rxjs";
+import {  Observable, tap } from "rxjs";
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  currentUser: any;
   private http = inject(HttpClient)
 
   constructor() {}
@@ -18,6 +17,13 @@ export class AuthService {
 
   login(code: string): Observable<AuthResponse> {
     return this.http.get<AuthResponse>(`${ environment.apiUrl }/auth/login?code=${code}`);
+  }
+
+  logout(): Observable<any> {
+    return this.http.post(`${ environment.apiUrl }/auth/logout`, {}).pipe(tap(() => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+    }));
   }
 
   get authToken() {

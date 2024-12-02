@@ -1,0 +1,35 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card mt-3">
+        <div class="card-body">
+          <form [formGroup]="form">
+            <fieldset>
+              <legend>
+               Cadastrar nova sessão
+              </legend>
+              <div class="mb-3">
+                <label for="name" class="form-label">Nome</label>
+                <input type="text" class="form-control" formControlName="name">
+              </div>
+              <div class="mb-3">
+                <label for="uri" class="form-label">Uri</label>
+                <input type="text" class="form-control" formControlName="uri">
+              </div>
+              <div class="mb-3">
+                <label for="time" class="form-label">Tempo padrão do timer</label>
+                <input type="time" class="form-control" formControlName="time">
+              </div>
+              <div class="mb-3">
+                <label for="time" class="form-label">Tempo padrão de descanso</label>
+                <input type="time" class="form-control" formControlName="rest_time" min="00:00">
+              </div>
+              <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">Salvar</button>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
