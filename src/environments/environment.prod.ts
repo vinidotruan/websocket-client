@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
-  apiUrl: "http://rpgdoscria.online/api",
-  authSpa: "http://rpgdoscria.online/sanctum/csrf-cookie",
+  apiUrl: "https://rpgdoscria.online/api",
+  authSpa: "https://rpgdoscria.online/sanctum/csrf-cookie",
   pusher: {
     broadcaster: 'pusher',
     key: 'app-key',
@@ -11,6 +11,6 @@ export const environment = {
     forceTLS: false,
     enabledTransports: ['ws'],
     cluster: 'mt1',
-    authEndpoint: 'http://rpgdoscria.online/broadcasting/auth',
+    authEndpoint: 'https://rpgdoscria.online/broadcasting/auth',
   },
 };
