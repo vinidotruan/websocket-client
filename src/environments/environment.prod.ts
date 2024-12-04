@@ -7,7 +7,7 @@ export const environment = {
     key: 'rpgdoscriachave',
     wsHost: 'rpgdoscria.online',
     wsPort: '6001',
-    wssPort: '6001',
+    wssPort: '',
     forceTLS: true,
     enabledTransports: ['wss'],
     cluster: 'mt1',
