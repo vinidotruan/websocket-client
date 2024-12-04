@@ -19,7 +19,7 @@ export class EchoService {
     wsHost: environment.pusher.wsHost,
     wsPort: environment.pusher.wssPort,
     wssPort: environment.pusher.wssPort,
-    forceTLS: true,
+    forceTLS: environment.production,
     enabledTransports: ['ws', 'wss'],
     cluster: environment.pusher.cluster,
     encrypted: false,

@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '@services/auth.service';
 import { SessionsService } from '@services/sessions.service';
 import { NavbarComponent } from '@shared-components/navbar/navbar.component';
@@ -26,6 +27,7 @@ export class SessionsFormComponent {
 
   private authService: AuthService = inject(AuthService);
   private sessionService: SessionsService = inject(SessionsService);
+  private router: Router = inject(Router);
 
   constructor() {
     this.form.patchValue({ user_id: this.authService.user.id })
@@ -39,7 +41,7 @@ export class SessionsFormComponent {
       rest_minutes: this.toMinutes(rest_time)
     };
     this.sessionService.createSession(data).subscribe({
-      next: response => console.log(response)
+      next: response => this.router.navigate(['/'])
     });
   }
 
