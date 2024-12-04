@@ -35,8 +35,8 @@ export class SessionsFormComponent {
     const { time, rest_time } = this.form.value;
     const data = {
       ...this.form.value,
-      time: this.toMinutes(time),
-      rest_time: this.toMinutes(rest_time)
+      minutes: this.toMinutes(time),
+      rest_minutes: this.toMinutes(rest_time)
     };
     this.sessionService.createSession(data).subscribe({
       next: response => console.log(response)

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { AuthService } from '@services/auth.service';
 import { LoadingComponent } from '@shared-components/loading/loading.component';
 
 @Component({
@@ -11,4 +12,12 @@ import { LoadingComponent } from '@shared-components/loading/loading.component';
 })
 export class AppComponent {
   title = 'websocket-client';
+  private authService = inject(AuthService);
+
+  constructor() {
+    this.authService.spaAuth().subscribe({
+      next: response => console.log(response),
+      error: err => console.error(err)
+    })
+  }
 }

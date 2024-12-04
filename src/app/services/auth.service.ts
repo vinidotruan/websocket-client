@@ -1,7 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "@env/environment.development";
-import {  Observable, tap } from "rxjs";
+import { environment } from "@env/environment";
+import { Observable, tap } from "rxjs";
 
 @Injectable({
   providedIn: 'root',
@@ -24,6 +24,10 @@ export class AuthService {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
     }));
+  }
+
+  spaAuth() {
+    return this.http.get(`${ environment.authSpa }`, { observe: "response"});
   }
 
   get authToken() {

@@ -1,5 +1,5 @@
-import { Injectable, Input } from "@angular/core";
-import { BehaviorSubject, interval, Observable, takeUntil } from "rxjs";
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, interval, Observable } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,7 @@ export class StopwatchService {
           this.seconds = 0;
         } else if(this.minutes == 60) {
           this.minutes = 0;
-          this.hours++
+          this.hours++;
         } else {
           this.seconds++;
         }

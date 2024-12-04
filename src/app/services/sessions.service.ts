@@ -1,7 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "@env/environment.development";
-import { BehaviorSubject, map, Observable, Subject, tap } from "rxjs";
+import { environment } from "@env/environment";
+import { BehaviorSubject, Observable, tap } from "rxjs";
 import { StopwatchService } from "@services/stopwatch.service";
 import { EchoService } from "./echo.service";
 
