@@ -23,10 +23,6 @@ export class LoginComponent {
       }
     });
 
-    if(this.authService.authToken) {
-      this.router.navigate(['/home']).then()
-    }
-
     if(this.route.snapshot.queryParamMap.get('code')) {
       this.code =this.route.snapshot.queryParamMap.get('code');
       console.log(this.code);

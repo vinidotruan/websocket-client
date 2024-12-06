@@ -2,6 +2,7 @@ import { inject, Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "@env/environment";
 import { Observable, tap } from "rxjs";
+import { Session } from "./sessions.service";
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +36,7 @@ export class AuthService {
   }
 
   get user() {
-    return JSON.parse(localStorage.getItem('user'));
+    return JSON.parse(localStorage.getItem('user')) as User;
   }
 }
 
@@ -44,5 +45,13 @@ export class AuthResponse {
   twitch_id: string;
   access_token: string;
   token: string;
-  user: any;
+  user: User;
+}
+
+export class User {
+  id: string;
+  email: string;
+  display_name: string;
+  profile_image_url: string;
+  followed_sessions: Session[];
 }

@@ -41,7 +41,7 @@ export class SessionsFormComponent {
       rest_minutes: this.toMinutes(rest_time)
     };
     this.sessionService.createSession(data).subscribe({
-      next: response => this.router.navigate(['/'])
+      next: response => this.router.navigate(['/home'])
     });
   }
 

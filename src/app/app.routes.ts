@@ -6,6 +6,7 @@ import { SessionsFormComponent } from './pages/sessions-form/sessions-form.compo
 
 export const routes: Routes = [
   { path: '', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'home', component: HomeComponent},
   { path: 'session/:uri', component: SessionsComponent },
   { path: 'session', component: SessionsFormComponent }

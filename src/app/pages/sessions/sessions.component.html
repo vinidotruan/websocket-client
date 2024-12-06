@@ -9,10 +9,22 @@
           <button class="btn btn-primary" (click)="start()">
            Começar
           </button>
+          } @else {
+          <button class="btn btn-primary" (click)="follow()">
+          {{ isFollowing() ? "Deixar de Seguir" : "Seguir"}}
+          </button>
           }
+        </div>
+        <div class="card-footer d-flex justify-content-end" *ngIf="waiters?.length > 0 ">
+          <img
+          *ngFor="let waiter of waiters"
+          [src]="waiter.profile_image_url"
+          class="rounded-pill"
+          style="width: 30px"
+          alt=""
+          >
         </div>
       </div>
     </div>
   </div>
-
-  </div>
+</div>
