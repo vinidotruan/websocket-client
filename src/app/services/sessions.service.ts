@@ -4,6 +4,7 @@ import { environment } from "@env/environment";
 import { BehaviorSubject, Observable, tap } from "rxjs";
 import { StopwatchService } from "@services/stopwatch.service";
 import { EchoService } from "./echo.service";
+import { User } from "./auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class SessionsService {
   session = new BehaviorSubject<Session>(null);
   currentSession = this.session.asObservable();
   private http = inject(HttpClient)
-  private stopWatchService = inject(StopwatchService);
+  private stopWatchService: StopwatchService = inject(StopwatchService);
   private echoService = inject(EchoService);
 
   constructor() { }
@@ -31,18 +32,23 @@ export class SessionsService {
   }
 
   startSession(sessionId: string) {
-    return this.http.post(`${environment.apiUrl}/sessions/${sessionId}/start`, {});
+    return this.http.post<Session>(`${environment.apiUrl}/sessions/${sessionId}/start`, {})
+    .pipe(tap(response => this.setSession(response)));
   }
 
   listenEvents() {
     const sessionName = `session.${this.session.getValue().id}`;
 
-    this.echoService.listenPrivateChannel(sessionName, '.session.started', () => this.stopWatchService.start())
+    this.echoService.listenPrivateChannel(sessionName, '.session.started', () => this.stopWatchService.start(this.session.getValue().minutes))
     this.echoService.listenPrivateChannel(sessionName, '.session.ended', () => this.stopWatchService.stop());
   }
 
   setSession(session: Session) {
+    console.log(session)
     this.session.next(session);
+    const { hours, minutes } = this.stopWatchService.getHoursAndMinutes(session.minutes);
+    const timer = this.stopWatchService.getFormattedTimer(hours, minutes, 0);
+    this.stopWatchService.stopwatchBehavior.next(timer);
     this.listenEvents();
   }
 
@@ -52,8 +58,16 @@ export class Session {
   id: string;
   user_id: string;
   name:string;
-  minutes: string;
+  minutes: number;
   rest_minutes: string;
   uri: string;
-  counter: string;
+  on_going: boolean;
+  waiting_room: WaitingRoom;
+}
+
+export class WaitingRoom {
+  id: string;
+  session_id: string;
+  waiters: User[];
+
 }

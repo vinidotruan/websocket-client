@@ -37,12 +37,11 @@ export class SessionsComponent {
     this.service.searchSession(routeUri).subscribe({
       next: session => {
         this.currentSession = session;
+        this.waiters = session?.waiting_room?.waiters ?? [];
         if(this.isFollowing()) {
           this.notifyFollowerEntered();
         }
-        if(this.isOwner()) {
-          this.listenFollowers();
-        }
+        this.listenFollowers();
       }
     });
 
@@ -58,7 +57,7 @@ export class SessionsComponent {
       session_id: this.currentSession.id
     }
     this.partnerService.entered(data).subscribe({
-      next: () => console.log("plau")
+      next: () => {},
     });
   }
 
@@ -92,17 +91,12 @@ export class SessionsComponent {
     this.echoService.listenPrivateChannel(
       sessionName,
       '.session.partner-entered',
-      (data) => {
-        this.waiters = data;
-      }
+      (data) => this.waiters = data
     )
     this.echoService.listenPrivateChannel(
       sessionName,
       '.session.partner-leaved',
-      (data) => {
-        console.log(data)
-        this.waiters = data;
-      }
+      (data) => this.waiters = data
     )
 
   }
