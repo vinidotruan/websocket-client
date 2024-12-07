@@ -1,0 +1,17 @@
+  a {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  text-decoration: none;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  background: linear-gradient(to right, #9146ff 0%, #9146ff 100%);
+  background-size: 0 100%; /* Começa com fundo escondido */
+  background-repeat: no-repeat;
+  transition: background-size 0.5s ease-in-out; /* Para animação suave no hover */
+}
+
+a:hover {
+  background-size: 100% 100%; /* Faz o fundo crescer ao passar o mouse */
+}

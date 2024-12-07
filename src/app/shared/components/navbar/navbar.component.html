@@ -1,7 +1,7 @@
 <nav class="navbar border-bottom">
   <div class="container mt-0 pt-0">
     <img [src]="userPic" alt="user image" class="rounded-pill" style="width: 50px">
-    <a class="navbar-brand text-white fw-bold" [routerLink]="'/home'">{{ userName }}</a>
+    <a class="navbar-brand text-white fw-bold" id="username" [routerLink]="'/home'">{{ userName }}</a>
     <span class="material-symbols-outlined" (click)="logout()">
       logout
     </span>

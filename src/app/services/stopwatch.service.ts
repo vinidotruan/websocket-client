@@ -16,8 +16,7 @@ export class StopwatchService {
   constructor() { }
 
   start(timer: number): void {
-    console.log(this.hours, this.minutes)
-    this.interval = interval(0.5);
+    this.interval = interval(1000);
     let { hours, minutes } = this.getHoursAndMinutes(timer);
     let seconds = 0;
     this.hours = hours;
