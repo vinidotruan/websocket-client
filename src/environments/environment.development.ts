@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
-  apiUrl: "http://localhost:8000/api",
-  authSpa: "http://localhost:8000/sanctum/csrf-cookie",
+  apiUrl: "https://mss.vinidotruan.live/api",
+  authSpa: "https://mss.vinidotruan.live/sanctum/csrf-cookie",
   pusher: {
     broadcaster: 'pusher',
     key: 'app-key',
@@ -11,6 +11,6 @@ export const environment = {
     forceTLS: false,
     enabledTransports: ['ws'],
     cluster: 'mt1',
-    authEndpoint: 'http://localhost:8000/broadcasting/auth',
+    authEndpoint: 'https://mss.vinidotruan.live/broadcasting/auth',
   },
 };
