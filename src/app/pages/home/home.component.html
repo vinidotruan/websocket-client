@@ -1,14 +1,13 @@
 <app-navbar></app-navbar>
 <section class="section container">
-<div class="row d-flex justify-content-center">
-  <div class="col-12 col-md-8 col-xl-8">
- <h2>
-    Minhas sessões
-  </h2>
-
+  <div class="row d-flex justify-content-center">
+    <div class="col-12 col-md-8 col-xl-8">
+      <h2>
+        Minhas sessões
+      </h2>
+    </div>
   </div>
-</div>
- </section>
+</section>
 <main class="main container">
   <div class="row d-flex justify-content-center">
     <div class="col-12 col-md-8 col-xl-8">
@@ -20,6 +19,24 @@
       </div>
     </div>
   </div>
+  <ng-container *ngIf="currentUser?.followed_sessions.length >= 1">
+    <hr>
+    <div class="row d-flex justify-content-center">
+      <div class="col-12 col-md-8 col-xl-8">
+        <h2>Sessões Seguidas</h2>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center">
+      <div class="col-12 col-md-8 col-xl-8">
+        <div class="card mb-3" *ngFor="let followedSession of currentUser?.followed_sessions" (click)="goToSession(followedSession)">
+          <div class="card-body">
+            <h3> {{ followedSession.name }}</h3>
+            <span class="badge text-bg-primary"> {{ followedSession.uri }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
   <hr>
   <div class="row mt-3 d-flex justify-content-center">
     <div class="col-12 col-md-8 col-xl-8">

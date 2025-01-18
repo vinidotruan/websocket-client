@@ -1,8 +1,9 @@
 import { Component, inject } from "@angular/core";
 import { NavbarComponent } from "@shared-components/navbar/navbar.component";
 import { Session, SessionsService } from "@services/sessions.service";
-import { NgForOf } from "@angular/common";
+import { NgForOf, NgIf } from "@angular/common";
 import { Router, RouterLink } from "@angular/router";
+import { AuthService } from "@services/auth.service";
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,8 @@ import { Router, RouterLink } from "@angular/router";
   imports: [
     NavbarComponent,
     NgForOf,
-    RouterLink
+    NgIf,
+    RouterLink,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -18,6 +20,10 @@ import { Router, RouterLink } from "@angular/router";
 export class HomeComponent {
   private sessionsService = inject(SessionsService)
   private router = inject(Router)
+  private authService = inject(AuthService)
+
+  currentUser = this.authService.user
+
   sessions: Session[] = [];
   constructor() {
     this.sessionsService.listSessions().subscribe({
@@ -28,9 +34,7 @@ export class HomeComponent {
   }
 
   goToSession(session: Session) {
-    this.router.navigate(['/session/'+session.uri]).then(() => {
-      this.sessionsService.setSession(session)
-    })
+    this.router.navigate(['/session/'+session.uri]);
   }
 
   goToCreateSession() {

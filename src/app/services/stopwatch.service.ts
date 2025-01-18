@@ -1,57 +1,34 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, interval, Observable } from "rxjs";
+import { BehaviorSubject, interval, Observable, Subscription } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class StopwatchService {
-  trigger: any;
-  interval = interval();
+  trigger: Subscription;
+  interval: Observable<number>;
   seconds: number = 0;
   minutes: number = 0;
   hours: number = 0;
   stopwatchBehavior = new BehaviorSubject<string>("00:00:00");
   stopwatch$: Observable<string> = this.stopwatchBehavior.asObservable();
 
-  constructor() { }
-
   start(timer: number): void {
-    this.interval = interval(1000);
     let { hours, minutes } = this.getHoursAndMinutes(timer);
     let seconds = 0;
     this.hours = hours;
     this.minutes = minutes;
-    this.trigger = this.interval.subscribe({
-      next: _  => {
-        if(seconds === 0 && minutes === 0 && hours === 0) {
-          this.stop();
-          return;
-        }
-        if(seconds == 0 && minutes == 0) {
-          if(hours > 0) {
-            hours--;
-          }
-          minutes = this.minutes != 0 ? 59 : this.minutes;
-          seconds = 59;
-        } else if (seconds == 0) {
-          seconds = 59;
-          if(minutes > 0) {
-            minutes--;
-          }
-        } else {
-          seconds--;
-        }
-        this.stopwatchBehavior.next(this.getFormattedTimer(hours, minutes, seconds));
-      }
-    })
+    this.trigger = this.stopwatchRules(seconds, minutes, hours)
   }
 
   stop(): void {
-    this.trigger.unsubscribe();
-    this.stopwatchBehavior.next(this.getFormattedTimer(this.hours, this.minutes, 0));
-    // this.minutes = 0;
-    // this.seconds = 0;
-    // this.hours = 0;
+    if (this.trigger) {
+      this.trigger.unsubscribe();
+      this.trigger = undefined;
+      this.stopwatchBehavior.next(this.getFormattedTimer(this.hours, this.minutes, 0));
+    } else {
+      console.log("chamou mais de uma vez");
+    }
   }
 
   getHoursAndMinutes(minutes: number): { hours: number, minutes: number }{
@@ -71,5 +48,9 @@ export class StopwatchService {
 
   private formatTo2Digits(time: number) {
     return time >= 10 ? time : `0${time}`;
+  }
+
+  private stopwatchRules(seconds: number, minutes: number, hours: number): Observable{
+    const inter = interval(1);
   }
 }

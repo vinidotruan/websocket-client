@@ -45,8 +45,12 @@ export class SessionsComponent {
       }
     });
 
+    // this.service.currentSession.subscribe({
+    //   next: session => this.currentSession = session
+    // })
+
     this.stopwatchService.stopwatch$.subscribe({
-      next : stopwatch => this.stopwatch = stopwatch
+      next: stopwatch => this.stopwatch = stopwatch
     })
 
   }
@@ -57,13 +61,13 @@ export class SessionsComponent {
       session_id: this.currentSession.id
     }
     this.partnerService.entered(data).subscribe({
-      next: () => {},
+      next: (response) => { console.log(response) },
     });
   }
 
   start() {
     this.service.startSession(this.currentSession.id).subscribe({
-      next: response => console.log(response)
+      next: response => this.service.setSession(response)
     })
   }
 
@@ -82,12 +86,26 @@ export class SessionsComponent {
         partner_id: this.authService.user.id,
         session_id: this.currentSession.id
       }).subscribe({
-        next: response => console.log(response)
+        next: response => {
+          this.authService.setCurrentUser(response.data)
+        }
       })
   }
 
+  unfollow() {
+    const id = this.authService.user.followed_sessions.map((value) => {
+      if (value.pivot.session_id == this.currentSession.id) {
+        return value.pivot.id
+      }
+    })[0];
+
+    this.partnerService.unfollow(id).subscribe({
+      next: response => this.authService.setCurrentUser(response.data)
+    })
+  }
   private listenFollowers() {
     const sessionName = `session.${this.currentSession.id}`;
+
     this.echoService.listenPrivateChannel(
       sessionName,
       '.session.partner-entered',
@@ -96,7 +114,7 @@ export class SessionsComponent {
     this.echoService.listenPrivateChannel(
       sessionName,
       '.session.partner-leaved',
-      (data) => this.waiters = data
+      (data) =>  this.waiters = data
     )
 
   }
@@ -106,11 +124,7 @@ export class SessionsComponent {
       this.partnerService.leave({
         partner_id: this.authService.user.id,
         session_id: this.currentSession.id
-      }).subscribe({
-        next: response => console.log(response)
-      });
+      }).subscribe();
     }
   }
-
-
 }

@@ -9,12 +9,13 @@ import { Observable } from 'rxjs';
 export class PartnerService {
   private http: HttpClient = inject(HttpClient);
 
-  constructor() { }
-
   follow(data: any): Observable<any> {
     return this.http.post(`${environment.apiUrl}/partner`, data);
   }
 
+  unfollow(id: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/partner/${id}`);
+  }
   entered(data: any): Observable<any> {
     return this.http.post(`${environment.apiUrl}/partner/entered`, data)
   }

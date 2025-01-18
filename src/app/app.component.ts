@@ -16,7 +16,7 @@ export class AppComponent {
 
   constructor() {
     this.authService.spaAuth().subscribe({
-      next: response => console.log(response),
+      next: () => {},
       error: err => console.error(err)
     })
   }

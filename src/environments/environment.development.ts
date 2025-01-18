@@ -5,7 +5,7 @@ export const environment = {
   pusher: {
     broadcaster: 'pusher',
     key: 'app-key',
-    wsHost: 'vinidotruan.live',
+    wsHost: 'localhost',
     wsPort: '6001',
     wssPort: '6001',
     forceTLS: false,

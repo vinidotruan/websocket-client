@@ -19,11 +19,11 @@
               </div>
               <div class="mb-3">
                 <label for="time" class="form-label">Tempo padrão do timer</label>
-                <input type="time" class="form-control" formControlName="time">
+                <input type="time" class="form-control" formControlName="time" step="1">
               </div>
               <div class="mb-3">
                 <label for="time" class="form-label">Tempo padrão de descanso</label>
-                <input type="time" class="form-control" formControlName="rest_time" min="00:00">
+                <input type="time" class="form-control" formControlName="rest_time" min="00:00" step="1">
               </div>
               <button class="btn btn-primary" (click)="save()" [disabled]="form.invalid">Salvar</button>
             </fieldset>

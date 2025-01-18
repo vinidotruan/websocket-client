@@ -38,6 +38,10 @@ export class AuthService {
   get user() {
     return JSON.parse(localStorage.getItem('user')) as User;
   }
+
+  setCurrentUser(user: User) {
+    return localStorage.setItem('user', JSON.stringify(user));
+  }
 }
 
 
