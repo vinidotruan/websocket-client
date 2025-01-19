@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,7 +12,8 @@ import { NavbarComponent } from '@shared-components/navbar/navbar.component';
   imports: [
     NavbarComponent,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgIf
   ],
   templateUrl: './sessions-form.component.html',
   styleUrl: './sessions-form.component.scss'
@@ -24,6 +26,7 @@ export class SessionsFormComponent {
     rest_time: new FormControl("00:00", [Validators.required]),
     user_id: new FormControl(null, [Validators.required])
   });
+  errors: string;
 
   private authService: AuthService = inject(AuthService);
   private sessionService: SessionsService = inject(SessionsService);
@@ -41,7 +44,13 @@ export class SessionsFormComponent {
       rest_minutes: this.toMinutes(rest_time)
     };
     this.sessionService.createSession(data).subscribe({
-      next: response => this.router.navigate(['/home'])
+      next: _ => this.router.navigate(['/home']),
+      error: (err: any) => {
+        console.log(err)
+        if (err.error.errors.hasOwnProperty('uri') ) {
+          this.errors = err.error.message
+        }
+      }
     });
   }
 
