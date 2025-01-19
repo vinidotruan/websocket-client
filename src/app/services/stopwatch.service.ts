@@ -5,8 +5,9 @@ import { BehaviorSubject, interval, Observable, Subscription } from "rxjs";
   providedIn: 'root'
 })
 export class StopwatchService {
-  trigger: Subscription;
+  trigger: any;
   interval: Observable<number>;
+  onGoing = false;
   seconds: number = 0;
   minutes: number = 0;
   hours: number = 0;
@@ -18,16 +19,13 @@ export class StopwatchService {
     let seconds = 0;
     this.hours = hours;
     this.minutes = minutes;
-    this.trigger = this.stopwatchRules(seconds, minutes, hours)
+    this.trigger = this.stopwatchRules(hours, minutes, seconds);
   }
 
   stop(): void {
     if (this.trigger) {
       this.trigger.unsubscribe();
-      this.trigger = undefined;
       this.stopwatchBehavior.next(this.getFormattedTimer(this.hours, this.minutes, 0));
-    } else {
-      console.log("chamou mais de uma vez");
     }
   }
 
@@ -50,7 +48,29 @@ export class StopwatchService {
     return time >= 10 ? time : `0${time}`;
   }
 
-  private stopwatchRules(seconds: number, minutes: number, hours: number): Observable{
-    const inter = interval(1);
+  private stopwatchRules(hours: number, minutes: number, seconds: number): Subscription {
+    return interval(1000).subscribe({
+      next: _  => {
+        if(seconds === 0 && minutes === 0 && hours === 0) {
+          this.stop();
+          return;
+        }
+        if(seconds == 0 && minutes == 0) {
+          if(hours > 0) {
+            hours--;
+          }
+          minutes = this.minutes != 0 ? 59 : this.minutes;
+          seconds = 59;
+        } else if (seconds == 0) {
+          seconds = 59;
+          if(minutes > 0) {
+            minutes--;
+          }
+        } else {
+          seconds--;
+        }
+        this.stopwatchBehavior.next(this.getFormattedTimer(hours, minutes, seconds));
+      }
+    });;
   }
 }

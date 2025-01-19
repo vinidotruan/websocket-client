@@ -28,7 +28,11 @@ export class SessionsService {
 
   searchSession(uri: string): Observable<Session> {
     return this.http.get<Session>(`${environment.apiUrl}/sessions/${uri}`)
-    .pipe(tap((session: Session) => { this.setSession(session); }));
+    .pipe(tap((session: Session) => {
+        this.setSession(session);
+        this.setTimer(session.minutes);
+        this.listenEvents();
+    }));
   }
 
   startSession(sessionId: string) {
@@ -38,18 +42,25 @@ export class SessionsService {
   listenEvents() {
     const sessionName = `session.${this.session.getValue().id}`;
     const time = this.session.getValue().minutes;
-    this.echoService.listenPrivateChannel(sessionName, '.session.started', () => this.service.start(time))
-    this.echoService.listenPrivateChannel(sessionName, '.session.ended', (session) => this.service.stop());
+    this.echoService.listenPrivateChannel(sessionName, '.session.started', (session) => {
+      this.service.start(time);
+      this.setSession(session)
+    })
+    this.echoService.listenPrivateChannel(sessionName, '.session.ended', (session) => {
+      this.service.stop();
+      this.setSession(session);
+    });
   }
 
   setSession(session: Session) {
     this.session.next(session);
-    const { hours, minutes } = this.service.getHoursAndMinutes(session.minutes);
-    const timer = this.service.getFormattedTimer(hours, minutes, 0);
-    this.service.stopwatchBehavior.next(timer);
-    this.listenEvents();
   }
 
+  setTimer(sessionMinutes: number) {
+    const { hours, minutes } = this.service.getHoursAndMinutes(sessionMinutes);
+    const timer = this.service.getFormattedTimer(hours, minutes, 0);
+    this.service.stopwatchBehavior.next(timer)
+  }
 }
 
 export class Session {

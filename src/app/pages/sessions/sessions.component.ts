@@ -34,6 +34,7 @@ export class SessionsComponent {
 
   ngOnInit() {
     const routeUri = this.activatedRoute.snapshot.paramMap.get('uri');
+
     this.service.searchSession(routeUri).subscribe({
       next: session => {
         this.currentSession = session;
@@ -45,9 +46,9 @@ export class SessionsComponent {
       }
     });
 
-    // this.service.currentSession.subscribe({
-    //   next: session => this.currentSession = session
-    // })
+    this.service.currentSession.subscribe({
+      next: session => this.currentSession = session
+    })
 
     this.stopwatchService.stopwatch$.subscribe({
       next: stopwatch => this.stopwatch = stopwatch
@@ -55,7 +56,7 @@ export class SessionsComponent {
 
   }
 
-  notifyFollowerEntered() {
+  notifyFollowerEntered(): void {
     const data = {
       partner_id: this.authService.user.id,
       session_id: this.currentSession.id
@@ -65,13 +66,11 @@ export class SessionsComponent {
     });
   }
 
-  start() {
-    this.service.startSession(this.currentSession.id).subscribe({
-      next: response => this.service.setSession(response)
-    })
+  start(): void {
+    this.service.startSession(this.currentSession.id).subscribe();
   }
 
-  isOwner() {
+  isOwner(): boolean {
     return this.currentSession?.user_id === this.authService?.user?.id;
   }
 
@@ -81,7 +80,7 @@ export class SessionsComponent {
     );
   }
 
-  follow() {
+  follow(): void {
       this.partnerService.follow({
         partner_id: this.authService.user.id,
         session_id: this.currentSession.id
@@ -92,7 +91,7 @@ export class SessionsComponent {
       })
   }
 
-  unfollow() {
+  unfollow(): void {
     const id = this.authService.user.followed_sessions.map((value) => {
       if (value.pivot.session_id == this.currentSession.id) {
         return value.pivot.id
@@ -103,7 +102,8 @@ export class SessionsComponent {
       next: response => this.authService.setCurrentUser(response.data)
     })
   }
-  private listenFollowers() {
+
+  private listenFollowers(): void {
     const sessionName = `session.${this.currentSession.id}`;
 
     this.echoService.listenPrivateChannel(
