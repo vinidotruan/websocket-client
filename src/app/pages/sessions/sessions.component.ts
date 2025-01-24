@@ -4,7 +4,7 @@ import { Session, SessionsService } from "@services/sessions.service";
 import { StopwatchService } from "@services/stopwatch.service";
 import { EchoService } from "@services/echo.service";
 import { AuthService } from "@services/auth.service";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { PartnerService } from "@services/partner.service";
 import { JsonPipe, NgForOf, NgIf } from "@angular/common";
 
@@ -27,6 +27,7 @@ export class SessionsComponent {
   private partnerService = inject(PartnerService);
   private activatedRoute = inject(ActivatedRoute);
   private echoService: EchoService = inject(EchoService);
+  private router: Router = inject(Router);
 
   currentSession: Session;
   stopwatch = "";
@@ -101,6 +102,12 @@ export class SessionsComponent {
     this.partnerService.unfollow(id).subscribe({
       next: response => this.authService.setCurrentUser(response.data)
     })
+  }
+
+  deleteSession(id: string): void {
+    this.service.deleteSession(id).subscribe({
+      next: () => this.router.navigate(['/home'])
+    });
   }
 
   private listenFollowers(): void {

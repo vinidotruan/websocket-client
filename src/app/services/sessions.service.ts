@@ -23,7 +23,11 @@ export class SessionsService {
   }
 
   listSessions(): Observable<Session[]> {
-    return this.http.get<Session[]>(`${environment.apiUrl}/sessions`)
+    return this.http.get<Session[]>(`${environment.apiUrl}/sessions`);
+  }
+
+  deleteSession(id: string) : Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/sessions/${id}`);
   }
 
   searchSession(uri: string): Observable<Session> {
